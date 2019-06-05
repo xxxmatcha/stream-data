@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>异常检测</title>
+    <link href="/bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
+</head>
+<body>
+<div class="container-fluid">
+    <h1>数据流视图</h1>
+    <h4>以下实例演示了传感器采集流数据接入，通过自定义的流程驱动计算过程后，再通过ajax服务化的过程。
+    </h4>
+        <div class="row">
+             <div class="col-sm-3 col-md-6"><img  src="/img/process.png"  style="width: 95%; height: auto" class="img-rounded"/></div>
+             <div class="col-sm-9 col-md-6"><img  src="/img/sensor.png"  class="img-rounded"/></div>
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <!--图表展示区-->
+                <div class="col-lg-9 col-md-9 container" style="background-color: #ffffff;margin-top:2%">
+                    <div id="lineChart" style="height:500px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</body>
+
+<script type="text/javascript" src="/jquery-3.4.0.min.js"></script>
+<script type="text/javascript" src="/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/echarts3/echarts.min.js"></script>
+<script type="text/javascript">
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('lineChart'));
+
+    option = {
+        title: {
+            text: '流数据异常检测服务化展示'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            type: 'category',
+            data: []
+        },
+        yAxis: {
+            type:'value',
+            splitLine: {
+                show: false
+            }
+        },
+        toolbox: {
+            left: 'center',
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        dataZoom: [{
+            startValue: '2014-06-01'
+        }, {
+            type: 'inside'
+        }],
+
+        series:[{
+            name: '原始曲线',
+            type: 'line',
+            smooth: true,
+            markLine: {
+                silent: true,
+                data: []
+            }
+        },{
+            name: '散点',
+            type: 'scatter',
+            symbol: 'circle',
+            symbolSize: function (value){
+                  return 20;
+            }
+        }],
+        color:['#096', '#ff0100']
+    };
+    myChart.setOption(option);
+</script>
+<script>
+    window.onload = function (ev) {
+        var dataList = {
+            timestamp:[],
+            value:[],
+            label:[]
+        };
+        setInterval(function () {
+            $.ajax({
+                url: '/getCpuData',
+                type: 'get',
+                data: {},
+                dateType: 'json',
+                success: function (result) {
+                    if (result.timestamp.length > 0) {
+
+                        dataList.timestamp = dataList.timestamp.concat(result.timestamp);
+                        for (var i = 0; i < dataList.timestamp.length; i++ ){
+                            dataList.timestamp[i] = new Date(dataList.timestamp[i]);
+                        }
+                        dataList.value = dataList.value.concat(result.value);
+                        dataList.label = dataList.label.concat(result.label);
+                        var datalistLength = dataList.timestamp.length;
+                        var windowcount = 40;
+                        if (datalistLength > windowcount) {
+                            dataList.timestamp.splice(0, datalistLength - windowcount);
+                            dataList.value.splice(0, datalistLength - windowcount);
+                            dataList.label.splice(0, datalistLength - windowcount);
+                        }
+
+                    }
+
+                    var itemLine = function () {
+                        return {
+                            name: '折线图',
+                            type: 'line',
+                            data: []
+                        }
+                    };
+
+                    var itemScatter = function () {
+                        return {
+                            name: '散点图',
+                            type: 'scatter',
+                            data: []
+                        }
+                    };
+                    itemLine.data = dataList.value;
+                    var valuenew  =  [];
+                    for (var i = 0 ;i < dataList.value.length; i++){
+                        if(dataList.label[i] == 'anomaly') {
+                            valuenew[i] = dataList.value[i];
+                        }
+                    }
+
+                    itemScatter.data = valuenew;
+                    var SeriesTotal=[];
+                    SeriesTotal.push(itemLine);
+                    SeriesTotal.push(itemScatter);
+                    option.xAxis.data = dataList.timestamp;
+
+                    option.series = SeriesTotal;
+
+                    myChart.setOption(option);
+                    }
+            })
+        }, 1000);
+    }
+</script>
+</html>

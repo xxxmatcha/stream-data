@@ -1,0 +1,281 @@
+﻿<!DOCTYPE HTML>
+<!-- saved from url=(0025)http://localhost/JsPlumb/ -->
+<!DOCTYPE html PUBLIC "" "">
+<HTML>
+<HEAD>
+    <META content="IE=11.0000"
+          http-equiv="X-UA-Compatible">
+
+    <META name="viewport" content="width=device-width, initial-scale=1">
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META http-equiv="X-UA-Compatible" content="IE=edge">
+    <TITLE>布局页面</TITLE>
+    <LINK href="/布局页面_files/bootstrap.css" rel="stylesheet">
+    <LINK href="/布局页面_files/toastr.css"
+          rel="stylesheet">
+    <LINK href="/布局页面_files/dashboard.css" rel="stylesheet">
+
+    <SCRIPT type="text/javascript" src="/布局页面_files/jquery-1.10.2.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/布局页面_files/jquery-1.9.1.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/布局页面_files/bootstrap.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/布局页面_files/ewin.extensionl.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/布局页面_files/toastr.min.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/布局页面_files/bootbox.min.js"></SCRIPT>
+    <SCRIPT type="text/javascript">
+        toastr.options.positionClass = 'toast-bottom-right';
+    </SCRIPT>
+
+    <META name="GENERATOR" content="MSHTML 11.00.10570.1001">
+</HEAD>
+<BODY>
+    <DIV class="container-fluid">
+        <SCRIPT type="text/javascript" src="布局页面_files/jquery-ui.js"></SCRIPT>
+        <LINK href="布局页面_files/jquery-ui.min.css" rel="stylesheet">
+        <SCRIPT type="text/javascript" src="布局页面_files/jquery.jsPlumb-1.7.5.js"></SCRIPT>
+        <LINK href="布局页面_files/BootSideMenu.css" rel="stylesheet">
+        <SCRIPT type="text/javascript" src="布局页面_files/BootSideMenu.js"></SCRIPT>
+
+        <SCRIPT type="text/javascript" src="布局页面_files/EwinSelectArea.js"></SCRIPT>
+        <LINK href="布局页面_files/DragGraph.css" rel="stylesheet">
+        <SCRIPT type="text/javascript" src="布局页面_files/linq.js"></SCRIPT>
+
+        <SCRIPT type="text/javascript" src="布局页面_files/EwinCommon.js"></SCRIPT>
+
+        <SCRIPT type="text/javascript" src="布局页面_files/Index.js"></SCRIPT>
+
+        <DIV id="divHead">
+            <DIV class="divMenuBar">
+                <DIV class="divMenuBtn btn-default btn" id="btn_linetype">
+                    连线类型：<SELECT id="sel_linetype"
+                                 style="width: 80px; height: 20px;">
+                        <OPTION value="2">直线</OPTION>
+                        <OPTION value="1">折线</OPTION>
+                        <OPTION value="3">
+                            曲线
+                        </OPTION>
+                    </SELECT>
+                </DIV>
+                <DIV class="divVerticalLine"></DIV>
+                <DIV class="divMenuBtn btn-default btn" id="btn_add">
+                    <IMG src="布局页面_files/icon-new-products-16.png">新建
+                </DIV>
+                <DIV class="divVerticalLine"></DIV>
+                <DIV class="divMenuBtn btn-default btn" id="btn_delete">
+                    <IMG src="布局页面_files/move.png">删除
+                </DIV>
+                <DIV class="divVerticalLine"></DIV>
+                <DIV class="divMenuBtn btn-default btn" id="btn_save">
+                    <IMG src="布局页面_files/paste.png">保存
+                </DIV>
+            </DIV>
+            <DIV class="divMenuBar">
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignLeft()">
+                    <IMG src="布局页面_files/align_left.png">左对齐
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignCenter()">
+                    <IMG src="布局页面_files/align_center.png">居中对齐
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignRight()">
+                    <IMG src="布局页面_files/align_right.png">右对齐
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignTop()">
+                    <IMG src="布局页面_files/align_top.png">上对齐
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignMiddle()">
+                    <IMG src="布局页面_files/align_middle.png">垂直居中
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignBottom()">
+                    <IMG src="布局页面_files/align_bottom.png">下对齐
+                </DIV>
+                <DIV class="divVerticalLine"></DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectUpColse()">
+                    上下靠拢
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectLeftColse()">
+                    左右靠拢
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectSameHeight()">
+                    同高
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectSameWidth()">
+                    同宽
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectClockwise(45)">
+                    <IMG src="布局页面_files/rotate_clockwise.png">顺时针
+                </DIV>
+                <DIV class="divMenuBtn btn-default btn" onclick="SelectClockwise(-45)">
+                    <IMG src="布局页面_files/rotate_anticlockwise.png">逆时针
+                </DIV>
+            </DIV>
+        </DIV>
+        <DIV id="divContent">
+            <DIV id="divContent2">
+                <DIV id="divContentLeftMenu">
+                    <DIV class="sidebar-menu" id="divSidebar">
+                        <A class="nav-header menu-first collapsed"
+                           onclick="Resize()" href="http://localhost/JsPlumb/#plantmodel" data-toggle="collapse">传感器</A>
+                        <UL class="nav nav-list collapse menu-second" id="plantmodel">
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node drag" id="node1" dbtype="DTO_TM_PLANT">
+                                        <LABEL>传感器A</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node2" dbtype="DTO_TM_PLANT">
+                                        <LABEL>传感器B</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node3" dbtype="DTO_TM_PLANT">
+                                        <LABEL>传感器C</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                        </UL>
+                        <!--
+                        <A class="nav-header menu-first collapsed"
+                                onclick="Resize()" href="http://localhost/JsPlumb/#themeemodel" data-toggle="collapse">主题</A>
+                        <UL class="nav nav-list collapse menu-second" id="themeemodel">
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node radius" id="node4" dbtype="DTO_TM_ART_LINE">
+                                        <LABEL>主题A</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node5" dbtype="DTO_TM_ART_LINE">
+                                        <LABEL>主题B</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                        </UL> -->
+                        <A class="nav-header menu-first collapsed"
+                                onclick="Resize()" href="http://localhost/JsPlumb/#servicemodel" data-toggle="collapse">服务</A>
+                        <UL class="nav nav-list collapse menu-second" id="servicemodel">
+                            <LI> 
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node radius node_base" id="node6"  dbtype="DTO_TM_ULOC">
+                                        <LABEL>SOA服务</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node node_base" id="node7"  dbtype="DTO_TM_ULOC">
+                                            <LABEL>REST服务</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                        </UL>
+						<A class="nav-header menu-first collapsed"
+                                onclick="Resize()" href="http://localhost/JsPlumb/#algorithm" data-toggle="collapse">算法库</A>
+						<UL class="nav nav-list collapse menu-second" id="algorithm">
+                            <LI> 
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node drag" id="node8"  dbtype="DTO_TM">
+                                        <LABEL>过滤</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node9"  dbtype="DTO_TM">
+                                            <LABEL>合并</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+							<LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node10"  dbtype="DTO_TM">
+                                            <LABEL>决策树</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+							<LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node11"  dbtype="DTO_TM">
+                                            <LABEL>神经网络</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node12"  dbtype="DTO_TM">
+                                            <LABEL>LOF</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node12"  dbtype="DTO_TM">
+                                            <LABEL>One-SVM</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>      
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node12"  dbtype="DTO_TM">
+                                            <LABEL>孤立森林</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node12"  dbtype="DTO_TM">
+                                            <LABEL>滤波</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                            <LI>
+                                <A href="http://localhost/JsPlumb/#">
+                                    <DIV class="node" id="node12"  dbtype="DTO_TM">
+                                            <LABEL>分解</LABEL>
+                                    </DIV>
+                                </A>
+                            </LI>
+                        </UL>
+                    </DIV>
+                </DIV>
+                <DIV id="divCenter"></DIV>
+                <DIV id="divCenter2"></DIV>
+                <DIV id="divRight">
+                    <DIV id="divRightContent"></DIV>
+                </DIV>
+            </DIV>
+        </DIV>
+        <DIV tabindex="-1" class="modal fade" id="myModal" role="dialog"
+             aria-labelledby="myModalLabel">
+            <DIV class="modal-dialog" role="document">
+                <DIV class="modal-content">
+                    <DIV class="modal-header">
+                        <BUTTON class="close" aria-label="Close" type="button"
+                                data-dismiss="modal">
+                            <SPAN aria-hidden="true">×</SPAN>
+                        </BUTTON>
+                        <H4 class="modal-title" id="myModalLabel">模板名称</H4>
+                    </DIV>
+                    <DIV class="modal-body"><INPUT class="form-control" id="text_new_template"></DIV>
+                    <DIV class="modal-footer">
+                        <BUTTON class="btn btn-default" type="button"
+                                data-dismiss="modal">
+                            <SPAN class="glyphicon glyphicon-remove"
+                                  aria-hidden="true"></SPAN>关闭
+                        </BUTTON>                 <BUTTON class="btn btn-primary"
+                                                          id="btn_submit" type="button" data-dismiss="modal">
+                            <SPAN class="glyphicon glyphicon-floppy-disk"
+                                  aria-hidden="true"></SPAN>保存
+                        </BUTTON>
+                    </DIV>
+                </DIV>
+            </DIV>
+        </DIV>
+    </DIV>
+</BODY>
+</HTML>

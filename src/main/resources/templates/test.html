@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>异常检测</title>
+
+    <link href="/css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
+    <link href="/css/bootstrap-table.css" rel="stylesheet">
+    <!--<link href="/css/font-awesome.css" rel="stylesheet"> --><!-- FONT AWESOME ICON STYLESHEET -->
+    <link href="/css/style.css" rel="stylesheet"><!-- THEME BASIC CSS -->
+    <link href="/css/style-responsive.css" rel="stylesheet"><!-- THEME BASIC RESPONSIVE  CSS -->
+</head>
+
+<script type="text/javascript" src="/jquery-3.4.0.min.js"></script>
+<script type="text/javascript" src="/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/echarts3/echarts.min.js"></script>
+<!-- BEGIN JS -->
+<!-- BASIC JS LIABRARY -->
+<script type="text/javascript" src="/js/bootstrap.min.js"></script><!-- BOOTSTRAP JS  -->
+<script type="text/javascript"  src="/js/bootstrap-treeview.js"></script>
+<script type="text/javascript" src="/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-table-zh-CN.min.js"></script>
+
+<body>
+<!-- BEGIN SECTION -->
+<section id="container" class="">
+    <!-- BEGIN HEADER -->
+    <header class="header white-bg">
+
+        <!-- SIDEBAR TOGGLE BUTTON -->
+        <div class="sidebar-toggle-box">
+            <img style="width: 40px; height:40px" class="fa fa-bars" data-placement="right" src="/img/logo.png">
+        </div>
+        <!-- SIDEBAR TOGGLE BUTTON  END-->
+        <a class="logo" style="font-family: '黑体'; color: #fff; ">
+            流数据异常检测服务化展示
+        </a>
+
+        <!-- START HEADER  NAV -->
+        <!-- END HEADER NAV -->
+    </header>
+    <!-- END HEADER -->
+
+    <!-- BEGIN SIDEBAR -->
+    <aside>
+        <div id="sidebar" class="nav-collapse">
+            <ul class="sidebar-menu nav nav-pills nav-stacked" id="nav-accordion">
+                <li class="active">
+                    <a href="#sensor1" data-toggle="tab">
+                        SENSOR1
+                    </a>
+                </li>
+                <li>
+                    <a href="#sensor2" data-toggle="tab">
+                        SENSOR2
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <!-- END SIDEBAR -->
+
+    <!-- START MAIN CONTENT -->
+    <div id="main-content" class="wrapper tab-content">
+        <!-- START ROW -->
+        <div class="row tab-pane fade in active" id="sensor1" >
+            <!--图表展示区-->
+            <div class="col-lg-9 " >
+                <section class="panel">
+                    <header class="panel-heading">
+                        <h4><strong>sensor1</strong></h4>
+                    </header>
+
+                    <div class="panel-body" style="background-color: #ffffff;margin-top:2%">
+                        <div id="lineChart1" style="height:560px;">
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="row tab-pane fade" id="sensor2" >
+            <div class="col-lg-9" >
+                <section class="panel">
+                    <header class="panel-heading">
+                        <h4><strong>sensor2</strong></h4>
+                    </header>
+
+                    <div class="panel-body" style="background-color: #ffffff;margin-top:2%">
+                        <div id="lineChart2" style="height:560px;">
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div id="tree1"></div>
+        <!-- END ROW -->
+        <!-- START ROW -->
+
+        <!-- END ROW -->
+        <!-- START ROW -->
+        <!-- END ROW -->
+    </div>
+    <!-- END MAIN CONTENT -->
+    </div>
+    <!-- BEGIN FOOTER -->
+    <footer class="site-footer navbar-fixed-bottom">
+        <div class="text-center">
+            Copyright@北方工业大学
+            <a href="#" class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+    </footer>
+    <!-- END FOOTER -->
+
+</section>
+<!-- END SECTION -->
+
+
+<!-- END JS -->
+</body>
+
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('lineChart1'));
+    var myChart2 = echarts.init(document.getElementById('lineChart2'));
+
+    option1 = {
+        title: {
+            text: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            type: 'category',
+            data: []
+        },
+        yAxis: {
+            type:'value',
+            splitLine: {
+                show: false
+            }
+        },
+        toolbox: {
+            left: 'center',
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        dataZoom: [{
+            startValue: '2014-06-01'
+        }, {
+            type: 'inside'
+        }],
+
+        series:[{
+            name: '原始曲线',
+            type: 'line',
+            markLine: {
+                silent: true,
+                data: []
+            }
+        },{
+            name: '散点',
+            type: 'scatter',
+            symbol: 'circle',
+            symbolSize: function (value){
+                return 20;
+            }
+        }],
+        color:['#096', '#ff0100']
+    };
+    myChart1.setOption(option1);
+
+    window.onload = function (ev) {
+        var dataList = {
+            timestamp:[],
+            value:[],
+            label:[]
+        };
+        setInterval(function () {
+            $.ajax({
+                url: '/getCpuData',
+                type: 'get',
+                data: {},
+                dateType: 'json',
+                success: function (result) {
+                    if (result.timestamp.length > 0) {
+
+                        dataList.timestamp = dataList.timestamp.concat(result.timestamp);
+                        for (var i = 0; i < dataList.timestamp.length; i++ ){
+                            dataList.timestamp[i] = new Date(dataList.timestamp[i]);
+                        }
+                        dataList.value = dataList.value.concat(result.value);
+                        dataList.label = dataList.label.concat(result.label);
+                        var datalistLength = dataList.timestamp.length;
+                        var windowcount = 30;
+                        if (datalistLength > windowcount) {
+                            dataList.timestamp.splice(0, datalistLength - windowcount);
+                            dataList.value.splice(0, datalistLength - windowcount);
+                            dataList.label.splice(0, datalistLength - windowcount);
+                        }
+
+                    }
+
+                    var itemLine = function () {
+                        return {
+                            name: '折线图',
+                            type: 'line',
+                            data: []
+                        }
+                    };
+
+                    var itemScatter = function () {
+                        return {
+                            name: '散点图',
+                            type: 'scatter',
+                            data: []
+                        }
+                    };
+                    itemLine.data = dataList.value;
+                    var valuenew  =  [];
+                    for (var i = 0 ;i < dataList.value.length; i++){
+                        if(dataList.label[i] == 'anomaly') {
+                            valuenew[i] = dataList.value[i];
+                        }
+                    }
+                    //console.log(valuenew);
+                    itemScatter.data = valuenew;
+                    var SeriesTotal=[];
+                    SeriesTotal.push(itemLine);
+                    SeriesTotal.push(itemScatter);
+                    option1.xAxis.data = dataList.timestamp;
+
+                    option1.series = SeriesTotal;
+
+                    myChart1.setOption(option1);
+                }
+            })
+        }, 1000);
+    }
+</script>
+
+
+</html>

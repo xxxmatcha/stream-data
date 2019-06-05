@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>this is a demo html</title>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script type="text/javascript" src="/jquery-3.4.0.min.js"></script>
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script type="text/javascript" src="/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/echarts3/echarts.min.js"></script>
+
+    <LINK href="/files/bootstrap.css" rel="stylesheet">
+    <LINK href="/files/toastr.css"
+          rel="stylesheet">
+    <LINK href="/files/dashboard.css" rel="stylesheet">
+
+    <SCRIPT type="text/javascript" src="/files/jquery-1.10.2.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/files/jquery-1.9.1.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/files/bootstrap.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/files/ewin.extensionl.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/files/toastr.min.js"></SCRIPT>
+    <SCRIPT type="text/javascript" src="/files/bootbox.min.js"></SCRIPT>
+    <SCRIPT type="text/javascript">
+        toastr.options.positionClass = 'toast-bottom-right';
+    </SCRIPT>
+
+    <style>
+        /* Make the image fully responsive */
+        .carousel-inner img {
+            min-width: 40%;
+            height: 350px;
+        }
+    </style>
+</head>
+<body>
+<!--
+<div class="jumbotron text-center" style="margin-bottom:0">
+    <h1>流数据服务化工具</h1>
+    <p>基于视图的流数据处理过程服务化！</p>
+</div>-->
+
+<div class="container-fluid">
+    <div id="slider" class="carousel slide" data-ride="carousel">
+        <!-- 指示符 -->
+        <ul class="carousel-indicators">
+            <li data-target="#slider" data-slide-to="0" class="active"></li>
+            <li data-target="#slider" data-slide-to="1"></li>
+            <li data-target="#slider" data-slide-to="2"></li>
+        </ul>
+        <!-- 轮播图片 -->
+        <div class="carousel-inner">
+            <div class="carousel-item bg-info text-center active">
+                <img src="/img/process.png">
+                <div class="carousel-caption">
+                    <h3 class="text-dark">数据流程图</h3>
+                    <p class="text-dark">用户自定义处理过程!</p>
+                </div>
+            </div>
+            <div class="carousel-item bg-info text-center">
+                <img src="/img/sensor.png">
+                <div class="carousel-caption">
+                    <h3 class="text-primary">模拟传感器</h3>
+                    <p class="text-primary">采集来自CPU、内存、系统的各种运行环境参数!</p>
+                </div>
+            </div>
+            <div class="carousel-item bg-info text-center">
+                <img src="img/tool.png">
+                <div class="carousel-caption">
+                    <h3 class="text-primary">服务化流程</h3>
+                    <p class="text-primary">智能交互工具，从数据采集，自定义处理和服务化展现，完成整个流程!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左右切换按钮 -->
+        <a class="carousel-control-prev" href="#slider" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#slider" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">流程定制</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu1">服务化案例</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu2">集群监控</a>
+        </li>
+
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="home" class="tab-pane active">
+            <DIV class="container-fluid">
+                <SCRIPT type="text/javascript" src="/files/jquery-ui.js"></SCRIPT>
+                <LINK href="/files/jquery-ui.min.css" rel="stylesheet">
+                <SCRIPT type="text/javascript" src="/files/jquery.jsPlumb-1.7.5.js"></SCRIPT>
+                <LINK href="/files/BootSideMenu.css" rel="stylesheet">
+                <SCRIPT type="text/javascript" src="/files/BootSideMenu.js"></SCRIPT>
+
+                <SCRIPT type="text/javascript" src="/files/EwinSelectArea.js"></SCRIPT>
+                <LINK href="/files/DragGraph.css" rel="stylesheet">
+                <SCRIPT type="text/javascript" src="/files/linq.js"></SCRIPT>
+
+                <SCRIPT type="text/javascript" src="/files/EwinCommon.js"></SCRIPT>
+
+                <SCRIPT type="text/javascript" src="/files/Index.js"></SCRIPT>
+
+                <DIV id="divHead">
+                    <DIV class="divMenuBar">
+                        <DIV class="divMenuBtn btn-default btn" id="btn_linetype">
+                            连线类型：<SELECT id="sel_linetype"
+                                         style="width: 80px; height: 20px;">
+                            <OPTION value="2">直线</OPTION>
+                            <OPTION value="1">折线</OPTION>
+                            <OPTION value="3">
+                                曲线
+                            </OPTION>
+                        </SELECT>
+                        </DIV>
+                        <DIV class="divVerticalLine"></DIV>
+                        <DIV class="divMenuBtn btn-default btn" id="btn_add">
+                            <IMG src="/files/icon-new-products-16.png">新建
+                        </DIV>
+                        <DIV class="divVerticalLine"></DIV>
+                        <DIV class="divMenuBtn btn-default btn" id="btn_delete">
+                            <IMG src="/files/move.png">删除
+                        </DIV>
+                        <DIV class="divVerticalLine"></DIV>
+                        <DIV class="divMenuBtn btn-default btn" id="btn_save">
+                            <IMG src="/files/paste.png">保存
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" id="btn_run" >
+                            <IMG src="/files/paste.png">启动
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" id="btn_get" >
+                            <IMG src="/files/paste.png">get
+                        </DIV>
+                        <!--<button id="btn-run2">启动2</button>-->
+                    </DIV>
+                    <DIV class="divMenuBar">
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignLeft()">
+                            <IMG src="/files/align_left.png">左对齐
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignCenter()">
+                            <IMG src="/files/align_center.png">居中对齐
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignRight()">
+                            <IMG src="/files/align_right.png">右对齐
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignTop()">
+                            <IMG src="/files/align_top.png">上对齐
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignMiddle()">
+                            <IMG src="/files/align_middle.png">垂直居中
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectAlignBottom()">
+                            <IMG src="/files/align_bottom.png">下对齐
+                        </DIV>
+                        <DIV class="divVerticalLine"></DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectUpColse()">
+                            上下靠拢
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectLeftColse()">
+                            左右靠拢
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectSameHeight()">
+                            同高
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectSameWidth()">
+                            同宽
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectClockwise(45)">
+                            <IMG src="/files/rotate_clockwise.png">顺时针
+                        </DIV>
+                        <DIV class="divMenuBtn btn-default btn" onclick="SelectClockwise(-45)">
+                            <IMG src="/files/rotate_anticlockwise.png">逆时针
+                        </DIV>
+
+
+
+                    </DIV>
+                </DIV>
+                <DIV id="divContent">
+                    <DIV id="divContent2">
+                        <DIV id="divContentLeftMenu">
+                            <DIV class="sidebar-menu" id="divSidebar">
+                                <A class="nav-header menu-first collapsed"
+                                   onclick="Resize()" href="http://localhost/JsPlumb/#plantmodel"
+                                   data-toggle="collapse">传感器</A>
+                                <UL class="nav nav-list collapse menu-second" id="plantmodel">
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node drag" id="node1" dbtype="DTO_TM_PLANT">
+                                                <LABEL>传感器A</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node2" dbtype="DTO_TM_PLANT">
+                                                <LABEL>传感器B</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node3" dbtype="DTO_TM_PLANT">
+                                                <LABEL>传感器C</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                </UL>
+                                <A class="nav-header menu-first collapsed"
+                                   onclick="Resize()" href="http://localhost/JsPlumb/#servicemodel"
+                                   data-toggle="collapse">服务</A>
+                                <UL class="nav nav-list collapse menu-second" id="servicemodel">
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node radius node_base" id="node6" dbtype="DTO_TM_ULOC">
+                                                <LABEL>SOA服务</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node node_base" id="node7" dbtype="DTO_TM_ULOC">
+                                                <LABEL>REST服务</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                </UL>
+                                <A class="nav-header menu-first collapsed"
+                                   onclick="Resize()" href="http://localhost/JsPlumb/#algorithm" data-toggle="collapse">算法库</A>
+                                <UL class="nav nav-list collapse menu-second" id="algorithm">
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node drag" id="node8" dbtype="DTO_TM">
+                                                <LABEL>过滤</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node9" dbtype="DTO_TM">
+                                                <LABEL>合并</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node10" dbtype="DTO_TM">
+                                                <LABEL>决策树</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node11" dbtype="DTO_TM">
+                                                <LABEL>神经网络</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node11" dbtype="DTO_TM">
+                                                <LABEL>LOF</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node11" dbtype="DTO_TM">
+                                                <LABEL>One-SVM</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node11" dbtype="DTO_TM">
+                                                <LABEL>孤立森林</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node15" dbtype="DTO_TM">
+                                                <LABEL>滤波</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                    <LI>
+                                        <A href="http://localhost/JsPlumb/#">
+                                            <DIV class="node" id="node16" dbtype="DTO_TM">
+                                                <LABEL>分解</LABEL>
+                                            </DIV>
+                                        </A>
+                                    </LI>
+                                </UL>
+                            </DIV>
+                        </DIV>
+                        <DIV id="divCenter"></DIV>
+                        <DIV id="divCenter2"></DIV>
+                        <DIV id="divRight">
+                            <div id="myTestArea">
+                                <table class="table table-bordered" >
+                                    <!--class="table table-bordered"-->
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <label >IP</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="ip_test" value="10.5.81.243">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>源Topic</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="intopic_test" value="test2">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>目的Topic</label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="outtopic_test" value="filterComputer">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <DIV id="divRightContent"></DIV>
+                        </DIV>
+                    </DIV>
+                </DIV>
+                <DIV tabindex="-1" class="modal fade" id="myModal" role="dialog"
+                     aria-labelledby="myModalLabel">
+                    <DIV class="modal-dialog" role="document">
+                        <DIV class="modal-content">
+                            <DIV class="modal-header">
+                                <BUTTON class="close" aria-label="Close" type="button"
+                                        data-dismiss="modal">
+                                    <SPAN aria-hidden="true">×</SPAN>
+                                </BUTTON>
+                                <H4 class="modal-title" id="myModalLabel">模板名称</H4>
+                            </DIV>
+                            <DIV class="modal-body"><INPUT class="form-control" id="text_new_template"></DIV>
+                            <DIV class="modal-footer">
+                                <BUTTON class="btn btn-default" type="button"
+                                        data-dismiss="modal">
+                            <SPAN class="glyphicon glyphicon-remove"
+                                  aria-hidden="true"></SPAN>关闭
+                                </BUTTON>
+                                <BUTTON class="btn btn-primary"
+                                        id="btn_submit" type="button" data-dismiss="modal">
+                            <SPAN class="glyphicon glyphicon-floppy-disk"
+                                  aria-hidden="true"></SPAN>保存
+                                </BUTTON>
+                            </DIV>
+                        </DIV>
+                    </DIV>
+                </DIV>
+            </DIV>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <h3>流数据异常检测服务化展示</h3>
+
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                <form class="form-inline">
+                    <input class="form-control" type="text" placeholder="关键字">
+                    <button class="btn btn-success" type="button">服务搜索</button>
+                </form>
+            </nav>
+            <div class="row">
+                    <div class="col-lg-3 col-md-3 text-left">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>运行服务名称</th>
+                                <th>展示</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>CPU使用率传感异常检测服务</td>
+                                <td ><button class="btn btn-success">图表展示</button> </td>
+                            </tr>
+                            <tr>
+                                <td>温度传感器服务</td>
+                                <td ><button class="btn btn-success">图表展示</button> </td>
+                            </tr>
+                            <tr>
+                                <td>压力异常检测服务</td>
+                                <td ><button class="btn btn-success">图表展示</button> </td>
+                            </tr>
+                            <tr>
+                                <td>风机传感器异常检测服务</td>
+                                <td ><button class="btn btn-success">图表展示</button> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-9 col-md-9 " style="background-color: #ffffff;margin-top:2%">
+                        <div id="lineChart" style="width: 1000px; height:500px;">
+                        </div>
+                    </div>
+            </div>
+
+
+            <script type="text/javascript">
+
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('lineChart'));
+
+                option = {
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: []
+                    },
+                    yAxis: {
+                        type:'value',
+                        splitLine: {
+                            show: false
+                        }
+                    },
+                    toolbox: {
+                        left: 'center',
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    dataZoom: [{
+                        startValue: '2014-06-01'
+                    }, {
+                        type: 'inside'
+                    }],
+
+                    series:[{
+                        name: '原始曲线',
+                        type: 'line',
+                        smooth: true,
+                        markLine: {
+                            silent: true,
+                            data: []
+                        }
+                    },{
+                        name: '散点',
+                        type: 'scatter',
+                        symbol: 'circle',
+                        symbolSize: function (value){
+                            return 20;
+                        }
+                    }],
+                    color:['#096', '#ff0100']
+                };
+                myChart.setOption(option);
+
+                window.onload = function (ev) {
+                    var dataList = {
+                        timestamp:[],
+                        value:[],
+                        label:[]
+                    };
+                    console.log("hello ");
+                    setInterval(function () {
+                        $.ajax({
+                            url: '/getCpuData',
+                            type: 'get',
+                            data: {},
+                            dateType: 'json',
+                            success: function (result) {
+                                if (result.timestamp.length > 0) {
+
+                                    dataList.timestamp = dataList.timestamp.concat(result.timestamp);
+                                    for (var i = 0; i < dataList.timestamp.length; i++ ){
+                                        dataList.timestamp[i] = new Date(dataList.timestamp[i]);
+                                    }
+                                    dataList.value = dataList.value.concat(result.value);
+                                    dataList.label = dataList.label.concat(result.label);
+                                    var datalistLength = dataList.timestamp.length;
+                                    var windowcount = 40;
+                                    if (datalistLength > windowcount) {
+                                        dataList.timestamp.splice(0, datalistLength - windowcount);
+                                        dataList.value.splice(0, datalistLength - windowcount);
+                                        dataList.label.splice(0, datalistLength - windowcount);
+                                    }
+
+                                }
+
+                                var itemLine = function () {
+                                    return {
+                                        name: '折线图',
+                                        type: 'line',
+                                        data: []
+                                    }
+                                };
+
+                                var itemScatter = function () {
+                                    return {
+                                        name: '散点图',
+                                        type: 'scatter',
+                                        data: []
+                                    }
+                                };
+                                itemLine.data = dataList.value;
+                                var valuenew  =  [];
+                                for (var i = 0 ;i < dataList.value.length; i++){
+                                    if(dataList.label[i] == 'anomaly') {
+                                        valuenew[i] = dataList.value[i];
+                                    }
+                                }
+
+                                itemScatter.data = valuenew;
+                                var SeriesTotal=[];
+                                SeriesTotal.push(itemLine);
+                                SeriesTotal.push(itemScatter);
+                                option.xAxis.data = dataList.timestamp;
+                                option.series = SeriesTotal;
+                                myChart.setOption(option);
+                            }
+                        })
+                    }, 1000);
+                }
+            </script>
+        </div>
+        <div id="menu2" class="tab-pane fade"><br>
+            <h3>集群运行状态监控页面....</h3>
+                <div class="container">
+                    <h2>服务化进程</h2>
+                    <!--展示案例-->
+                    <div style="width:400px;border:1px solid lightgray;padding:20px;text-align:center;"> //margin:20px auto;
+                        <span style="color:#FF7519" >集群监控</span>
+                        <div style="font-size:0.9em;margin-top:20px">正在运行的flink任务数量: <span id="jobs-running">1</span></div>
+                        <div style="font-size:0.9em;margin-top:20px">已完成的flink任务数量: <span id="jobs-finished">1</span></div>
+                        <div style="font-size:0.9em;margin-top:20px">已取消的flink任务数量: <span id="jobs-cancelled">1</span></div>
+                        <div style="color:silver;font-size:0.8em;margin-top:20px">当前集群flink版本为1.7.2</div>
+
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>持续时间</th>
+                            <th>任务名称</th>
+                            <th>任务ID</th>
+                            <th>任务状态</th>
+                        </tr>
+                        </thead>
+                        <tbody id="jobmenu">
+                        <!--<tr>-->
+                            <!--<td>温度传感器服务</td>-->
+                            <!--<td>1</td>-->
+                            <!--<td>Node1,Node2/td>-->
+                            <!--<td class="bg-primary"></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>压力异常检测服务</td>-->
+                            <!--<td>1</td>-->
+                            <!--<td >Node1, Node2, Node3</td>-->
+                            <!--<td class="bg-danger"></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>风机传感器异常检测服务</td>-->
+                            <!--<td>2</td>-->
+                            <!--<td>Node3</td>-->
+                            <!--<td class="bg-success"><button class="btn btn-success"></button> </td>-->
+                        <!--</tr>-->
+                        </tbody>
+
+                    </table>
+                </div>
+
+    </div>
+</div>
+
+<!--
+<div class="container">
+    <h1 class="display-2">我的第一个
+        <mark>Bootstrap</mark>
+        页面
+    </h1>
+    <p>这是一些文本。</p>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="container">
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>成功!</strong> 指定操作成功提示信息。
+            </div>
+            <div class="alert alert-success">
+                <strong>成功!</strong> 你应该认真阅读 <a href="#" class="alert-link">这条信息</a>。
+            </div>
+        </div>
+        <div class="container">
+            <h2> 按钮元素</h2>
+            <a href="main.html" class="btn btn-outline-primary" role="button">主页面</a>
+            <button type="button" class="btn btn-info">按钮</button>
+            <input type="button" class="btn btn-info" value="输入框按钮">
+            <input type="submit" class="btn btn-info" value="提交按钮">
+        </div>
+        <div class="container">
+            <h2>内嵌按钮组</h2>
+            <p>按钮组设置下拉菜单:</p>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary">Apple</button>
+                <button type="button" class="btn btn-primary">Samsung</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Sony</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Tablet</a>
+                        <a class="dropdown-item" href="#">Smartphone</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>徽章</h2>
+            <h1>测试标题 <span class="badge badge-secondary">New</span></h1>
+            <h2>测试标题 <span class="badge badge-success">New</span></h2>
+            <h5>测试标题 <span class="badge badge-pill badge-secondary">New</span></h5>
+
+        </div>
+        <div class="container">
+            <h2>进度条文本标签</h2>
+            <div class="progress">
+                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 70%">70%
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>文字覆盖图片</h2>
+            <p>如果图片要设置为背景，可以使用 .card-img-overlay 类:</p>
+            <div class="card img-fluid" style="width: 500px">
+                <img class="card-img-top" src="/img/process.png" alt="流程图" style="width: 100%">
+                <div class="card-img-overlay">
+                    <h4 class="card-title">数据流程图</h4>
+                    <p class="card-text">用户定义的数据流程图，驱动流数据处理过程</p>
+                    <a href="main.html" class="btn btn-primary">数据流配置页面</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2>简单的折叠演示</h2>
+            <p>内容显示与否的切换</p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#demo2">简单折叠</button>
+            <div id="demo2" class="collapse">
+                这事要显示的折叠内容
+                当然这是可以换行的咯!
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            <p>RUNOOB</p>
+            <img src="/img/process.png" style="width: 95%; height: auto" class="img-fluid"/>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            <p>菜鸟教程</p>
+            <img src="/img/sensor.png" class="img-fluid"/>
+        </div>
+    </div>-->
+
+</div>
+<script>
+    $(document).ready(function(){
+        $("#btn_run").click(function(){
+            console.log("启动服务")
+            // console.log($("#ip_test").val())
+            // console.log($("#intopic_test").val())
+            // console.log($("#outtopic_test").val())
+                $.ajax(
+                {
+                    type:"Post",
+                    async:true,
+                    url:"/runTask",
+                    data: JSON.stringify({ "ip": $("#ip_test").val(), "inTopic": $("#intopic_test").val(), "outTopic":$("#outtopic_test").val() }),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {//ajax请求成功后触发的方法
+                        alert('请求成功');
+                    },
+                    error: function (data) {//ajax请求失败后触发的方法
+                        // alert("shibai");//弹出错误信息
+                        // console.log(data)
+
+                    }
+                }
+                );
+        });
+        $("#btn_get").click(function(){
+            $.get("http://10.5.81.243:8081/overview",function(data,status){
+                console.log(data)
+                alert("Data: " + data.toString() + "\nStatus: " + status);
+            });
+        });
+    });
+
+// ============================================================================================
+    // 总监控
+    // 另起表格，加上 taskmanagers ，slots-total 和 slots-available 。
+    setInterval(function(){ getTotalMsg(); },3000);
+    function getTotalMsg(){
+        $.ajax({
+            url:'http://10.5.81.243:8081/overview',
+            type:'get',
+            dataType:'json',
+            success:function(data){
+                if(data){
+                    console.log(data)
+                    setTotalMessageInnerHTML(data)
+                }
+            }
+        });
+    }
+
+    //将集群总监控信息显示在网页上
+    function setTotalMessageInnerHTML(data) {
+        document.getElementById('jobs-running').innerHTML = data["jobs-running"];
+        document.getElementById('jobs-cancelled').innerHTML = data["jobs-cancelled"];
+        document.getElementById('jobs-finished').innerHTML = data["jobs-finished"];
+    }
+
+//==========================================================================================================
+    setInterval(function(){ getJobsMsg(); },3000);
+    function getJobsMsg(){
+        $.ajax({
+            url:'http://10.5.81.243:8081/jobs/overview',
+            type:'get',
+            dataType:'json',
+            success:function(data){
+                if(data){
+                    console.log(data)
+                    // console.log("jobs-running:"+data["jobs-running"])
+                    setJobMessageInnerHTML(data)
+                }
+            }
+        })
+        ;
+    }
+
+    function setJobMessageInnerHTML(data) {
+        $("#jobmenu").empty();
+        // console.log(data.jobs.length)
+        for( var i = 0; i < data.jobs.length; i++ ){
+            var StrTemp = $("<tr></tr>");//<tr></tr>
+            console.log(StrTemp.text())
+            //往行里面追加 td单元格
+            // console.log("jid:"+(data.jobs)[0].jid)
+            StrTemp.append("<td>"+ (new Date((data.jobs)[i]["start-time"])).toLocaleString() +"</td>");
+            if((data.jobs)[i]["end-time"]== -1)
+                StrTemp.append("<td>"+ (data.jobs)[i]["end-time"] +"</td>");
+            else
+                StrTemp.append("<td>"+ (new Date((data.jobs)[i]["end-time"])).toLocaleString() +"</td>");
+            var shijiancha = (data.jobs)[i]["duration"]
+            var days    = parseInt(shijiancha / 1000 / 60 / 60 / 24);
+            daysRound = Math.floor(days)
+            var hours    = parseInt(shijiancha/ 1000 / 60 / 60 - (24 * daysRound));
+            hoursRound = Math.floor(hours)
+            var minutes   = parseInt(shijiancha / 1000 /60 - (24 * 60 * daysRound) - (60 * hoursRound));
+            minutesRound = Math.floor(minutes)
+            var seconds   = parseInt(shijiancha/ 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound));
+            secondsRound = Math.floor(seconds)
+            var dur = "";
+            daysRound   > 0 ? dur+= days.toString()+"d "  : dur=dur;
+            hoursRound  > 0 ? dur+= hours.toString()+"h " : dur=dur;
+            minutesRound> 0 ? dur+=minutes.toString()+"m ": dur=dur;
+            secondsRound> 0 ? dur+=seconds.toString()+"s ": dur=dur;
+            //     StrTemp.append("<td>");
+            // daysRound   > 0 ?　StrTemp.append(days.toString()+"d ") : StrTemp.append(" ");
+            // hoursRound  > 0 ?　StrTemp.append(hours.toString()+"h ") : StrTemp.append("");
+            // minutesRound> 0 ?  StrTemp.append(minutes.toString()+"m "): StrTemp.append("");
+            // seconds> 0 ?  StrTemp.append(seconds.toString()+"s "): StrTemp.append("");
+            // StrTemp.append("</td>");
+
+            StrTemp.append("<td>"+dur+"</td>");
+            StrTemp.append("<td>"+ (data.jobs)[i].name +"</td>");
+            StrTemp.append("<td>"+ (data.jobs)[i].jid +"</td>");
+            StrTemp.append("<td>"+ (data.jobs)[i].state +"</td>");
+            StrTemp.appendTo("#jobmenu");
+        }
+
+        // document.getElementById('jobs-running').innerHTML = data["jobs-running"];
+        // document.getElementById('jobs-cancelled').innerHTML = data["jobs-cancelled"];
+        // document.getElementById('jobs-finished').innerHTML = data["jobs-finished"];
+    }
+
+</script>
+</body>
+</html>
